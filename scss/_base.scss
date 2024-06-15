@@ -1,0 +1,77 @@
+// ----- global style ----- //
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  // outline: 1px solid orange;
+}
+
+body {
+  font-family: $font-family;
+  font-size: 1rem;
+  color: $clr-text-primary;
+  line-height: 1.5;
+}
+
+// All FA5 free icons must be available for the solid style
+// So some icons doesn't work unless having this...
+i {
+  font-weight: 900;
+}
+
+.wrap {
+  width: 50rem;
+  margin: 0 auto;
+}
+
+.-bold {
+  font-weight: bold;
+}
+
+.-radius {
+  border-radius: $bd-radius;
+}
+
+.-top-radius {
+  border-top-left-radius: $bd-radius;
+  border-top-right-radius: $bd-radius;
+}
+
+.-bottom-radius {
+  border-bottom-left-radius: $bd-radius;
+  border-bottom-right-radius: $bd-radius;
+}
+
+.-bg-light {
+  background: $clr-bg-secondary !important;
+}
+
+.-bg-dark {
+  background: $clr-bg-tertiary !important;
+}
+
+// ----- elements ----- //
+
+button {
+  padding: 0.5rem;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: $clr-text-secondary;
+  cursor: pointer;
+
+  &:hover {
+    color: lighten($clr-text-secondary, 30%);
+  }
+}
+
+.table-item {
+  background: $clr-bg-primary;
+}
+
+.diffdate {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: $clr-text-secondary;
+}

@@ -1,0 +1,287 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  color: #2C2C2C;
+  line-height: 1.5;
+}
+
+i {
+  font-weight: 900;
+}
+
+.wrap {
+  width: 50rem;
+  margin: 0 auto;
+}
+
+.-bold {
+  font-weight: bold;
+}
+
+.-radius {
+  border-radius: 7px;
+}
+
+.-top-radius {
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+}
+
+.-bottom-radius {
+  border-bottom-left-radius: 7px;
+  border-bottom-right-radius: 7px;
+}
+
+.-bg-light {
+  background: #E8D7CC !important;
+}
+
+.-bg-dark {
+  background: #D9D9D9 !important;
+}
+
+button {
+  padding: 0.5rem;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: #545454;
+  cursor: pointer;
+}
+button:hover {
+  color: #a1a1a1;
+}
+
+.table-item {
+  background: #F4E3B2;
+}
+
+.diffdate {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #545454;
+}
+
+.day-selector {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 18rem;
+  margin: 0 auto;
+  margin-top: 1rem;
+  padding: 0.375rem 0;
+  border: 1px solid #D9D9D9;
+  border-radius: 20px;
+}
+.day-selector > .selectedday {
+  position: absolute;
+}
+.day-selector #datepicker {
+  border: none;
+  opacity: 0;
+}
+.day-selector #datepicker:focus {
+  outline: none;
+}
+.day-selector ::-webkit-calendar-picker-indicator {
+  background: none;
+  width: 100%;
+  height: 1.5rem;
+  cursor: pointer;
+}
+
+.timeline-table {
+  width: 32.5rem;
+  margin: 0 auto;
+  background: #F3F3F3;
+}
+
+.table-header {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  padding: 1rem 0;
+}
+.table-header.-shadow {
+  box-shadow: 0 5px 5px -5px #545454;
+}
+.table-header > .title {
+  width: 30%;
+}
+.table-header > .title > .-small {
+  font-size: 0.875rem;
+  color: #545454;
+}
+
+.table-container {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0;
+}
+.table-container > .time-line {
+  width: 30%;
+  margin: 0 0.125rem;
+}
+.table-container > .time-line > .table-item {
+  position: relative;
+  padding: 0.375rem 0;
+  border-bottom: 1px solid #F3F3F3;
+  text-align: center;
+}
+.table-container > .time-line > .table-item > .diffdate {
+  position: absolute;
+  left: 0.625rem;
+  top: 0.625rem;
+}
+
+.table-footer {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0;
+}
+.table-footer.-shadow {
+  box-shadow: 0 -5px 5px -5px #545454;
+}
+.table-footer > .time-field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  height: 10%;
+  background: white;
+  border: 1px solid #D9D9D9;
+  cursor: pointer;
+}
+.table-footer > .time-field:hover {
+  box-shadow: 0 0 5px -1px #545454;
+}
+.table-footer > .time-field > .difftime {
+  margin-left: 1rem;
+}
+.table-footer > .time-field > .copybtn {
+  margin-right: 0.5rem;
+}
+
+.panel-container {
+  position: absolute;
+  top: 18.5rem;
+  left: 16.5rem;
+  display: flex;
+  flex-direction: column;
+  width: 50rem;
+  height: 5rem;
+}
+.panel-container > .arrow-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.panel-container > .arrow-buttons > .upbtn,
+.panel-container > .arrow-buttons .downbtn {
+  position: absolute;
+  left: 6rem;
+  font-size: 2rem;
+}
+.panel-container > .arrow-buttons > .upbtn {
+  top: -3.5rem;
+}
+.panel-container > .arrow-buttons > .downbtn {
+  bottom: -1.1rem;
+}
+.panel-container [class$=btn]:hover {
+  color: #8964DE;
+}
+.panel-container > .panel-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 40rem;
+  height: 2.5rem;
+  margin: 0 auto;
+  background: white;
+  border: 2px solid #8964DE;
+}
+.panel-container > .panel-box > .head {
+  display: flex;
+  align-items: center;
+}
+.panel-container > .panel-box .head > .current {
+  font-weight: 600;
+}
+.panel-container > .panel-box .head > .dragbtn,
+.panel-container > .panel-box .resetbtn {
+  font-size: 1.25rem;
+}
+.panel-container > .panel-box .handle {
+  display: flex;
+  justify-content: space-around;
+  width: 30rem;
+}
+.panel-container > .panel-box .time {
+  width: 9rem;
+}
+.panel-container > .panel-box .time > .difftime {
+  font-size: 1.125rem;
+}/*# sourceMappingURL=main.css.map */
