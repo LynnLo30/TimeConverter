@@ -13,9 +13,11 @@ body {
   line-height: 1.5;
 }
 
-// All FA5 free icons must be available for the solid style
-// So some icons doesn't work unless having this...
 i {
+  // In order to accurately click on the outer button
+  pointer-events: none;
+  // All FA5 free icons must be available for the solid style
+  // So some icons doesn't work unless having this...
   font-weight: 900;
 }
 
@@ -24,8 +26,16 @@ i {
   margin: 0 auto;
 }
 
+[class^="table-"] {
+  background: $clr-text-tertiary;
+}
+
 .-bold {
   font-weight: bold;
+}
+
+.-hidden {
+  display: none;
 }
 
 .-radius {
@@ -69,9 +79,8 @@ button {
   background: $clr-bg-primary;
 }
 
-.diffdate {
+.diffday {
   display: inline-block;
   font-size: 0.7rem;
   font-weight: 600;
-  color: $clr-text-secondary;
 }
