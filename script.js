@@ -77,6 +77,20 @@ function changeCalendarPicker() {
     pickedDate || `${currentYear}-${currentMonth}-${currentDate}`
 }
 
+// ----- display current day
+
+function getCurrentDay(offsetDay) {
+  const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+  const dayElms = document.querySelectorAll('.diffday')
+
+  const displayDay = offsetDay === undefined ? currentDay : offsetDay
+
+  dayElms.forEach((dayElm) => {
+    dayElm.textContent = daysOfWeek[displayDay]
+  })
+}
+
 getCurrentDate()
+getCurrentDay()
 dateSelector.addEventListener('click', chooseDisplayDate)
 calendarPicker.addEventListener('change', changeCalendarPicker)
