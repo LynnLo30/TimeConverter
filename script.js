@@ -72,25 +72,30 @@ const calendarPicker = document.getElementById('calendar-picker')
 function changeCalendarPicker() {
   const pickedDate = this.value
 
-  // fix issue when user click the clear button will get an empty string
+  // fix issue: when user click the clear button will get an empty string
   selectedDate.innerText =
     pickedDate || `${currentYear}-${currentMonth}-${currentDate}`
+
+  // fix issue: after user click the calendarPicker, day won't change
+  getCurrentDay(chosenDay)
 }
 
 // ----- display current day
 
-function getCurrentDay(offsetDay) {
+function getCurrentDay(displayDay) {
   const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
   const dayElms = document.querySelectorAll('.diffday')
 
-  const displayDay = offsetDay === undefined ? currentDay : offsetDay
+  const dayIndex = displayDay !== undefined ? displayDay : currentDay
 
   dayElms.forEach((dayElm) => {
-    dayElm.textContent = daysOfWeek[displayDay]
+    dayElm.textContent = daysOfWeek[dayIndex]
   })
 }
 
 getCurrentDate()
 getCurrentDay()
 dateSelector.addEventListener('click', chooseDisplayDate)
-calendarPicker.addEventListener('change', changeCalendarPicker)
+/* fix issue: the calendarPicker doesn't update immediately after selecting a date.
+   Use the input event instead of change. */
+calendarPicker.addEventListener('input', changeCalendarPicker)
