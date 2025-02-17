@@ -93,9 +93,43 @@ function getCurrentDay(displayDay) {
   })
 }
 
+// ----- display current time by timezone
+
+function getCurrentTime(timezone) {
+  const getTimeByTimezone = (offset) => {
+    // make sure the display time is up-to-date
+    const now = new Date()
+    const utcHours = (now.getUTCHours() + offset).toString().padStart(2, '0')
+    const utcMinutes = now.getUTCMinutes().toString().padStart(2, '0')
+
+    // fix issue: ensure that the hour is within the 24-hour format
+    if (utcHours < 0) {
+      utcHours += 24
+    } else if (utcHours >= 24) {
+      utcHours -= 24
+    }
+
+    return `${utcHours}:${utcMinutes}`
+  }
+
+  const elementIds = ['time-user', 'time-from', 'time-to']
+
+  elementIds.forEach((id, index) => {
+    document.getElementById(id).textContent = getTimeByTimezone(timezone[index])
+  })
+
+  const convertedTime = document.querySelector('.convertedtime')
+  const [localTime, newYorkTime, londonTime] = timezone
+    .slice(0)
+    .map(getTimeByTimezone)
+
+  convertedTime.textContent = `${localTime} (Taiwan) ／ ${newYorkTime} (New York) ／ ${londonTime} (London)`
+}
+
 getCurrentDate()
 getCurrentDay()
 dateSelector.addEventListener('click', chooseDisplayDate)
 /* fix issue: the calendarPicker doesn't update immediately after selecting a date.
-   Use the input event instead of change. */
+Use the input event instead of change. */
 calendarPicker.addEventListener('input', changeCalendarPicker)
+setInterval(() => getCurrentTime([8, -4, 1]), 1000)
