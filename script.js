@@ -126,10 +126,47 @@ function getCurrentTime(timezone) {
   convertedTime.textContent = `${localTime} (Taiwan) ／ ${newYorkTime} (New York) ／ ${londonTime} (London)`
 }
 
+// ----- copy the converted time
+
+const clickToCopy = document.querySelector(".time-field");
+
+async function copyConvertedTime(e) {
+	const copyBtn = document.querySelector(".copybtn");
+	const copiedBtn = document.querySelector(".copiedbtn");
+	const copiedSvg = document.querySelector(".copiedsvg");
+	const textToCopy = document.querySelector(".convertedtime").innerText;
+
+	const showSuccess = () => {
+		copyBtn.classList.add("-hidden");
+		copiedBtn.classList.remove("-hidden");
+		copiedSvg.classList.remove("-hidden");
+	};
+
+	const resetToDefault = () => {
+		copyBtn.classList.remove("-hidden");
+		copiedBtn.classList.add("-hidden");
+		copiedSvg.classList.add("-hidden");
+	};
+
+	try {
+		await navigator.clipboard.writeText(textToCopy);
+		showSuccess();
+
+		setTimeout(() => {
+			resetToDefault();
+		}, 2000);
+	} catch (err) {
+		console.error(err);
+	}
+}
+
+
+
 getCurrentDate()
 getCurrentDay()
+setInterval(() => getCurrentTime([8, -4, 1]), 10000) // error: performance issues
 dateSelector.addEventListener('click', chooseDisplayDate)
 /* fix issue: the calendarPicker doesn't update immediately after selecting a date.
 Use the input event instead of change. */
 calendarPicker.addEventListener('input', changeCalendarPicker)
-setInterval(() => getCurrentTime([8, -4, 1]), 1000)
+clickToCopy.addEventListener("click", copyConvertedTime);
