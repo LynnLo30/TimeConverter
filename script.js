@@ -95,6 +95,8 @@ function getCurrentDay(displayDay) {
 
 // ----- display current time by timezone
 
+let currentLocalTime = ''
+
 function getCurrentTime(timezone) {
   const getTimeByTimezone = (offset) => {
     // make sure the display time is up-to-date
@@ -124,40 +126,74 @@ function getCurrentTime(timezone) {
     .map(getTimeByTimezone)
 
   convertedTime.textContent = `${localTime} (Taiwan) ／ ${newYorkTime} (New York) ／ ${londonTime} (London)`
+
+  currentLocalTime = localTime
+
+  panelPosition(null, localTime)
 }
 
 // ----- copy the converted time
 
-const clickToCopy = document.querySelector(".time-field");
+const clickToCopy = document.querySelector('.time-field')
 
 async function copyConvertedTime(e) {
-	const copyBtn = document.querySelector(".copybtn");
-	const copiedBtn = document.querySelector(".copiedbtn");
-	const copiedSvg = document.querySelector(".copiedsvg");
-	const textToCopy = document.querySelector(".convertedtime").innerText;
+  const copyBtn = document.querySelector('.copybtn')
+  const copiedBtn = document.querySelector('.copiedbtn')
+  const copiedSvg = document.querySelector('.copiedsvg')
+  const textToCopy = document.querySelector('.convertedtime').innerText
 
-	const showSuccess = () => {
-		copyBtn.classList.add("-hidden");
-		copiedBtn.classList.remove("-hidden");
-		copiedSvg.classList.remove("-hidden");
-	};
+  const showSuccess = () => {
+    copyBtn.classList.add('-hidden')
+    copiedBtn.classList.remove('-hidden')
+    copiedSvg.classList.remove('-hidden')
+  }
 
-	const resetToDefault = () => {
-		copyBtn.classList.remove("-hidden");
-		copiedBtn.classList.add("-hidden");
-		copiedSvg.classList.add("-hidden");
-	};
+  const resetToDefault = () => {
+    copyBtn.classList.remove('-hidden')
+    copiedBtn.classList.add('-hidden')
+    copiedSvg.classList.add('-hidden')
+  }
 
-	try {
-		await navigator.clipboard.writeText(textToCopy);
-		showSuccess();
+  try {
+    await navigator.clipboard.writeText(textToCopy)
+    showSuccess()
 
-		setTimeout(() => {
-			resetToDefault();
-		}, 2000);
-	} catch (err) {
-		console.error(err);
-	}
+    setTimeout(() => {
+      resetToDefault()
+    }, 2000)
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+// ----- handle the panel ----- //
+
+// ----- calculate the height of the panel in the viewport
+const panel = document.querySelector('.panel-container')
+
+function panelPosition(e, time) {
+  const tableBody = document.querySelector('.table-body')
+
+  // ----- original panel position
+  const eachMinPx = Number((tableBody.clientHeight / 1440).toFixed(2))
+  const localTimeArr = time.split(':').map(Number)
+  let position = (localTimeArr[0] * 60 + localTimeArr[1]) * eachMinPx
+
+  panel.style.top = `${position}px`
+
+  // ----- click arrow-buttons to adjust the panel position
+  // error: 會因為setInterval而跳回原本的位置
+  if (e.target.dataset.chevron === 'angle-up') {
+    console.log(`switch: before update, position = ${position}`)
+    position -= eachMinPx * 15
+    console.log(`switch: after angle-up, position = ${position}`)
+  } else if (e.target.dataset.chevron === 'angle-down') {
+    console.log(`switch: before update, position = ${position}`)
+    position += eachMinPx * 15
+    console.log(`switch: after angle-down, position = ${position}`)
+  }
+  
+  panel.style.top = `${position}px`
 }
 
 
@@ -169,4 +205,7 @@ dateSelector.addEventListener('click', chooseDisplayDate)
 /* fix issue: the calendarPicker doesn't update immediately after selecting a date.
 Use the input event instead of change. */
 calendarPicker.addEventListener('input', changeCalendarPicker)
-clickToCopy.addEventListener("click", copyConvertedTime);
+clickToCopy.addEventListener('click', copyConvertedTime)
+panel.addEventListener('click', (e) => {
+  panelPosition(e, currentLocalTime)
+})
