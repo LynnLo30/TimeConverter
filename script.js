@@ -174,29 +174,36 @@ const panel = document.querySelector('.panel-container')
 function panelPosition(e, time) {
   const tableBody = document.querySelector('.table-body')
 
-  // ----- original panel position
-  const eachMinPx = Number((tableBody.clientHeight / 1440).toFixed(2))
+  // original panel position
+  const eachMinPx = parseFloat((tableBody.clientHeight / 1440).toFixed(1))
   const localTimeArr = time.split(':').map(Number)
-  let position = (localTimeArr[0] * 60 + localTimeArr[1]) * eachMinPx
+  const initialPosition = (localTimeArr[0] * 60 + localTimeArr[1]) * eachMinPx
+  const step = eachMinPx * 15
 
-  panel.style.top = `${position}px`
-
-  // ----- click arrow-buttons to adjust the panel position
-  // error: 會因為setInterval而跳回原本的位置
-  if (e.target.dataset.chevron === 'angle-up') {
-    console.log(`switch: before update, position = ${position}`)
-    position -= eachMinPx * 15
-    console.log(`switch: after angle-up, position = ${position}`)
-  } else if (e.target.dataset.chevron === 'angle-down') {
-    console.log(`switch: before update, position = ${position}`)
-    position += eachMinPx * 15
-    console.log(`switch: after angle-down, position = ${position}`)
+  // fix issue: the panel will jump back to its initial position due to setInterval
+  if (!panel.dataset.position) {
+    panel.dataset.position = initialPosition
+    panel.style.top = `${initialPosition}px`
   }
-  
-  panel.style.top = `${position}px`
+
+  // click arrow-buttons to adjust the panel position
+  // improve：視窗會跟著按鈕移動
+  // error: 時間會跟著按鈕改變
+  if (e.target.dataset.chevron === 'angle-up') {
+    panel.dataset.position = parseFloat(panel.dataset.position) - step
+  } else if (e.target.dataset.chevron === 'angle-down') {
+    panel.dataset.position = parseFloat(panel.dataset.position) + step
+  }
+
+  // set the min & max values ​​of the panel
+  panel.dataset.position = Math.min(
+    Math.max(panel.dataset.position, 0),
+    tableBody.clientHeight - panel.clientHeight
+  )
+
+  // update the position according to data-position
+  panel.style.top = `${panel.dataset.position}px`
 }
-
-
 
 getCurrentDate()
 getCurrentDay()
