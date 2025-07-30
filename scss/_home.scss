@@ -95,10 +95,11 @@
   left: 73%;
   transform: translate(-73%, 0);
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   @include size(42rem, 2.5rem);
   background: white;
   border: 2px solid $clr-highlight;
+  transition: top 0.3s ease;
 
   [class$="btn"] {
     font-size: 2rem;
@@ -109,6 +110,7 @@
   }
 
   >.resetbtn {
+    visibility: hidden;
     font-size: 1.25rem;
   }
 }
@@ -127,11 +129,12 @@
     height: 9rem;
   }
 
-  >.dragbtn {
-    font-size: 1.25rem;
+  >.arrow-buttons>button {
+    color: darken($clr-text-tertiary, 10%);
   }
 
   >.current {
+    margin: 1rem;
     font-size: 0.9rem;
     font-weight: 600;
   }
@@ -141,7 +144,6 @@
   display: flex;
   align-items: center;
   width: 30rem;
-  cursor: grab;
 
   >.time {
     width: calc(100% - 190px);

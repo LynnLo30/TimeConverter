@@ -119,7 +119,7 @@ button {
   cursor: pointer;
 }
 button:hover {
-  color: #a1a1a1;
+  color: rgb(173.25, 173.25, 173.25);
 }
 
 .table-item {
@@ -219,11 +219,12 @@ button:hover {
   left: 73%;
   transform: translate(-73%, 0);
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   width: 42rem;
   height: 2.5rem;
   background: white;
   border: 2px solid #8964DE;
+  transition: top 0.3s ease;
 }
 .panel-container [class$=btn] {
   font-size: 2rem;
@@ -232,6 +233,7 @@ button:hover {
   color: #8964DE;
 }
 .panel-container > .resetbtn {
+  visibility: hidden;
   font-size: 1.25rem;
 }
 
@@ -248,10 +250,11 @@ button:hover {
   left: 1.5rem;
   height: 9rem;
 }
-.panel-head > .dragbtn {
-  font-size: 1.25rem;
+.panel-head > .arrow-buttons > button {
+  color: rgb(217.5, 217.5, 217.5);
 }
 .panel-head > .current {
+  margin: 1rem;
   font-size: 0.9rem;
   font-weight: 600;
 }
@@ -260,7 +263,6 @@ button:hover {
   display: flex;
   align-items: center;
   width: 30rem;
-  cursor: grab;
 }
 .panel-body > .time {
   width: calc(100% - 190px);
@@ -306,7 +308,7 @@ button:hover {
   margin-right: 0.5rem;
 }
 .time-field > .copybtn:hover {
-  color: #6e6e6e;
+  color: rgb(109.5, 109.5, 109.5);
 }
 .time-field > .copiedbtn {
   margin-right: 0.5rem;

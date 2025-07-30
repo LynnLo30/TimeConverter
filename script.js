@@ -95,7 +95,9 @@ function getCurrentDay(displayDay) {
 
 // ----- display current time by timezone
 
-let currentLocalTime = ''
+let timezone = [8, -4, 1]
+let baseLocalTime = ''
+let displayLocalTime = ''
 
 function getCurrentTime(timezone) {
   const getTimeByTimezone = (offset) => {
@@ -121,15 +123,24 @@ function getCurrentTime(timezone) {
   })
 
   const convertedTime = document.querySelector('.convertedtime')
-  const [localTime, newYorkTime, londonTime] = timezone
-    .slice(0)
-    .map(getTimeByTimezone)
+  const [localTime, newYorkTime, londonTime] = timezone.map(getTimeByTimezone)
 
   convertedTime.textContent = `${localTime} (Taiwan) ／ ${newYorkTime} (New York) ／ ${londonTime} (London)`
 
-  currentLocalTime = localTime
+  baseLocalTime = localTime
+  displayLocalTime = localTime
 
-  panelPosition(null, localTime)
+  panelPosition(e, baseLocalTime)
+}
+
+function addMinutesToTime(timeStr, minutes) {
+  const [hour, min] = timeStr.split(':').map(Number)
+  const total = (hour * 60 + min + minutes + 1440) % 1440
+  const newHour = Math.floor(total / 60)
+    .toString()
+    .padStart(2, '0')
+  const newMin = (total % 60).toString().padStart(2, '0')
+  return `${newHour}:${newMin}`
 }
 
 // ----- copy the converted time
@@ -173,6 +184,7 @@ const panel = document.querySelector('.panel-container')
 
 function panelPosition(e, time) {
   const tableBody = document.querySelector('.table-body')
+  const resetBtn = document.querySelector('.resetbtn')
 
   // original panel position
   const eachMinPx = parseFloat((tableBody.clientHeight / 1440).toFixed(1))
@@ -186,33 +198,55 @@ function panelPosition(e, time) {
     panel.style.top = `${initialPosition}px`
   }
 
+  // set the min & max values ​​of the panel position
+  panel.dataset.position = Math.min(
+    Math.max(parseFloat(panel.dataset.position), 0),
+    tableBody.clientHeight - panel.clientHeight
+  )
+
+
   // click arrow-buttons to adjust the panel position
   // improve：視窗會跟著按鈕移動
   // error: 時間會跟著按鈕改變
+
+  let adjustMinutes = 0
+
   if (e.target.dataset.chevron === 'angle-up') {
     panel.dataset.position = parseFloat(panel.dataset.position) - step
+    adjustMinutes = -15
   } else if (e.target.dataset.chevron === 'angle-down') {
     panel.dataset.position = parseFloat(panel.dataset.position) + step
+    adjustMinutes = 15
   }
 
-  // set the min & max values ​​of the panel
-  panel.dataset.position = Math.min(
-    Math.max(panel.dataset.position, 0),
-    tableBody.clientHeight - panel.clientHeight
-  )
+  if (adjustMinutes !== 0) {
+    displayLocalTime = addMinutesToTime(baseLocalTime, adjustMinutes)
+
+    resetBtn.style.visibility = 'visible'
+  }
 
   // update the position according to data-position
   panel.style.top = `${panel.dataset.position}px`
 }
 
+function resetPanel() {
+  displayLocalTime = baseLocalTime
+  delete panel.dataset.position
+
+  getCurrentTime(timezone)
+  resetBtn.style.visibility = 'hidden'
+}
+
 getCurrentDate()
 getCurrentDay()
-setInterval(() => getCurrentTime([8, -4, 1]), 10000) // error: performance issues
+
+setInterval(() => getCurrentTime(timezone), 1000) // improve: performance issues
 dateSelector.addEventListener('click', chooseDisplayDate)
 /* fix issue: the calendarPicker doesn't update immediately after selecting a date.
 Use the input event instead of change. */
 calendarPicker.addEventListener('input', changeCalendarPicker)
 clickToCopy.addEventListener('click', copyConvertedTime)
 panel.addEventListener('click', (e) => {
-  panelPosition(e, currentLocalTime)
+  panelPosition(e, displayLocalTime)
 })
+resetBtn.addEventListener('click', resetPanel)
