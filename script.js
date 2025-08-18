@@ -51,6 +51,7 @@ const dom = {
   copiedBtn: document.querySelector('.copiedbtn'),
   copiedSvg: document.querySelector('.copiedsvg'),
   panel: document.querySelector('.panel-container'),
+  currentText: document.getElementById('current'),
   tableBody: document.querySelector('.table-body'),
   chevronButtons: document.querySelectorAll('[data-chevron]'),
   resetBtn: document.querySelector('.resetbtn')
@@ -221,15 +222,26 @@ function handleTimePanel(e) {
 
   displayCurrentTime(modifiedTime)
   dom.resetBtn.style.visibility = 'visible'
+  dom.currentText.style.visibility = 'hidden'
+
+  const nowTime = getUtcTime(8)
+  if (
+    modifiedTime.hours === nowTime.hours &&
+    modifiedTime.minutes === nowTime.minutes
+  ) {
+    resetPanel()
+  }
 }
 
 // ----- reset the time on the panel by button
+
 function resetPanel() {
   modifiedTime = null
   displayCurrentTime()
 
   delete dom.panel.dataset.position
   dom.resetBtn.style.visibility = 'hidden'
+  dom.currentText.style.visibility = 'visible'
 }
 
 // ----- copy the converted time summary
@@ -270,8 +282,7 @@ setInterval(() => {
 }, 1000)
 
 dom.dateSelector.addEventListener('click', chooseDisplayDateByBtn)
-/* fix issue: 
-the calendarPicker doesn't update immediately after selecting a date.
+/* the calendarPicker doesn't update immediately after selecting a date.
 Use the input event instead of change. */
 dom.calendarPicker.addEventListener('input', changeByCalendarPicker)
 dom.clickToCopy.addEventListener('click', copyConvertedTime)
