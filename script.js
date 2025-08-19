@@ -53,7 +53,7 @@ const dom = {
   panel: document.querySelector('.panel-container'),
   currentText: document.getElementById('current'),
   tableBody: document.querySelector('.table-body'),
-  chevronButtons: document.querySelectorAll('[data-chevron]'),
+  chevronButtons: document.querySelectorAll('[data-chevron^="angle-"]'),
   resetBtn: document.querySelector('.resetbtn')
 }
 
